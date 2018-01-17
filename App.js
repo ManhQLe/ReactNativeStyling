@@ -2,6 +2,56 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, AppRegistry } from 'react-native'
 import styled from 'styled-components/native'
 
+import {FontAwesome, Ionicons}  from '@expo/vector-icons'
+import {TabNavigator,StackNavigator, DrawerNavigator} from 'react-navigation'
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		flexDirection: "row"
+	},
+	box: {
+		height: 50,
+		width: 50,
+		margin: 5,
+		backgroundColor: '#e76e63'
+	}
+})
+
+
+function Home(){
+	return (
+		<View style={styles.container}>
+			<Text>HOME</Text>
+		</View>
+	)
+}
+
+function Dashboard(){
+	return (
+		<View style={styles.container}>
+			<Text>DASHBOARD</Text>
+		</View>
+	)
+}
+
+const Tabs = TabNavigator({
+	Home:{
+		screen:Home,
+		navigationOptions:{
+			tabBarIcon:()=> <FontAwesome name='home' size={30} color='black'/>
+		}		
+	},
+	Dashboard:{
+		screen:Dashboard,
+		navigationOptions:{
+			tabBarIcon:()=> <FontAwesome name='dashboard' size={30} color='black'/>
+		}
+	}
+})
+
 const CenterView = styled.View`
   	flex:1;
   	align-items:center;
@@ -26,30 +76,11 @@ const WelcomeButton = styled.TouchableOpacity`
 class FlexboxExamples extends Component {
 	render() {
 		return (
-			<CenterView>
-				<WelcomeText>Hello</WelcomeText>
-				<WelcomeButton onPress={()=>alert('Hey you')}>
-					<WelcomeText>Push ME</WelcomeText>
-				</WelcomeButton>
-			</CenterView>
+			<View style={styles.container}>
+				<Tabs/>
+			</View>
 		)
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: "flex-end",
-		alignItems: "center",
-		flexDirection: "row",
-		padding: 20
-	},
-	box: {
-		height: 50,
-		width: 50,
-		margin: 5,
-		backgroundColor: '#e76e63'
-	}
-})
 
 export default FlexboxExamples;
