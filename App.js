@@ -38,10 +38,16 @@ function Home(){
 	)
 }
 
-function Dashboard(){
+function Dashboard({navigation}){
 	return (
 		<View style={styles.container}>
 			<Text>DASHBOARD</Text>
+			{/* <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Dashboard')}>
+				<Text>Open Drawer</Text>
+			</TouchableOpacity> */}
+			<TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('DrawerOpen')}>
+				<Text>Open Drawer</Text>
+			</TouchableOpacity>
 		</View>
 	)
 }
@@ -50,12 +56,32 @@ function Home2({navigation}){
 	return(
 		<View style={styles.container}>
 			<Text style={styles.text}>HOME VIEW</Text>
-			<TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Dashboard')}>
-				<Text>To Dashboard</Text>
+			{/* <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('Dashboard')}>
+				<Text>Open Drawer</Text>
+			</TouchableOpacity> */}
+			<TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('DrawerOpen')}>
+				<Text>Open Drawer</Text>
 			</TouchableOpacity>
 		</View>
 	)
 }
+
+const Drawer = DrawerNavigator({
+	Home:{
+		screen:Home2,
+		navigationOptions:{
+			drawerLabel:"My Home",
+			drawerIcon:()=><FontAwesome name='home' size={20} color='red'/>
+		}
+	},
+	Dashboard:{
+		screen:Dashboard,
+		navigationOptions:{
+			drawerLabel:"My Dashboard",
+			drawerIcon:()=><FontAwesome name='home' size={20} color='red'/>
+		}
+	}
+})
 
 const Tabs = TabNavigator({
 	Home:{
@@ -71,6 +97,7 @@ const Tabs = TabNavigator({
 		}
 	}
 })
+
 
 const Stack = StackNavigator({
 	Home:{
@@ -117,7 +144,7 @@ class FlexboxExamples extends Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Stack/>
+				<Drawer/>
 			</View>
 		)
 	}
