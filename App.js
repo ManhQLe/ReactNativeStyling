@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, AppRegistry, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, AppRegistry, TouchableOpacity, Animated,Image,ImageEditor } from 'react-native'
 import styled from 'styled-components/native'
 
+import {ImagePicker} from 'expo'
 import {FontAwesome, Ionicons}  from '@expo/vector-icons'
 import {TabNavigator,StackNavigator, DrawerNavigator} from 'react-navigation'
 
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
 		backgroundColor:"#e74c3c",	
 		justifyContent:"center",
 		height:50
+	},
+	image:{
+		width:150,
+		height:150,
+		resizeMode:'contain',
+		backgroundColor:'black'
 	}
 })
 
@@ -141,10 +148,37 @@ const WelcomeButton = styled.TouchableOpacity`
 `
 
 class FlexboxExamples extends Component {
+	state={
+		image:null
+	}
+
+	pickImage=()=>{
+		ImagePicker.launchImageLibraryAsync({
+			allowsEditing:true,
+			aspect:[2,1]			
+		}).then(result=>{
+			if(result.cancelled){
+				return
+			}
+
+			ImageEditor.cropImage(result.uri,{
+				offset:{x:0,y:0},
+				size:{width:result.width,height:result.height},
+				displaySize:{width:200,height:100},
+				resizeMode:'contain'
+			},(uri)=>this.setState({image:uri}),()=>console.log("Error"))
+		})
+	}
 	render() {
 		return (
 			<View style={styles.container}>
-				<Drawer/>
+				<TouchableOpacity onPress={this.pickImage}>
+					<Text>Open Camera Roll</Text>
+				</TouchableOpacity>
+
+				{
+					this.state.image && <Image style={styles.image} source={{uri:this.state.image}}/>
+				}
 			</View>
 		)
 	}
